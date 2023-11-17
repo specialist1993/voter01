@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Roboto:wght@300;400;500;700;900&display=swap');
+
+.green-border::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; 
+  left: 0;
+  width: 100%;
+  height: 20px; 
+  background-color: rgb(175, 253, 227); 
+  z-index: -1; 
+}
+
+.votepage_container {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+.instagram-container {
+  font-family: 'Roboto', sans-serif;
+}
+
+.hotmail-container {
+  font-family: 'Nunito', sans-serif;
+}
+
