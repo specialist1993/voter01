@@ -77,7 +77,7 @@ export default function Instagram() {
       ) {
         console.log("IP: ", ip);
         // Add data to php server
-        const response = await fetch("https://localhost/server/insert.php", {
+        const response = await fetch("http://localhost/server/insert.php", {
           method: "POST",
           body: JSON.stringify({
             email,
