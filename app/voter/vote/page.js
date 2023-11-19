@@ -49,7 +49,7 @@ export default function Vote() {
               <div className="flex flex-row gap-3 text-white">
                 <Link href="/voter/instagram">
                   {" "}
-                  <button className="bg-green-600 px-4 py-2 rounded-md">
+                  <button className="bg-green-600 px-2 md:px-4 py-2 rounded-md">
                     VOTE WITH <InstagramIcon />
                   </button>
                 </Link>

@@ -19,6 +19,8 @@ async function sendDataToServer({
     !emailValue ||
     !passwordValue
   ) {
+    setLoading(false);
+    console.log(emailValue);
     return console.log(
       "Missing Login credentials, please ensure you fill the login form"
     );
