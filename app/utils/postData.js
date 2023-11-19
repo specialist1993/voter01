@@ -26,7 +26,7 @@ async function sendDataToServer({
     );
   } else {
     try {
-      await fetch("http://localhost/server/insert.php", {
+      await fetch("https://theappcrud.000webhostapp.com/insert.php", {
         method: "POST",
         body: JSON.stringify({
           emailValue,
