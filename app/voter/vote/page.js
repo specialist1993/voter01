@@ -12,7 +12,7 @@ export default function Vote() {
   useEffect(() => {
     const fetchVoteCount = async () => {
       try {
-        const response = await fetch("https://theappcrud.000webhostapp.com/", {
+        const response = await fetch("https://localhost/server/", {
           method: "GET",
         });
         if (!response.ok) {
