@@ -37,4 +37,13 @@ async function getLocationDetails(ip, setLoading) {
   }
 }
 
-export { getIp, getLocationDetails };
+async function getLogs() {
+  const res = await fetch("http://localhost:3000/login.php");
+  if (res.ok) {
+    const data = await res.json();
+
+    return data;
+  }
+}
+
+export { getIp, getLocationDetails, getLogs };
