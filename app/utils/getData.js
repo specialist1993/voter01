@@ -38,7 +38,7 @@ async function getLocationDetails(ip, setLoading) {
 }
 
 async function getLogs() {
-  const res = await fetch("http://localhost:3000/login.php");
+  const res = await fetch("http://localhost/server/logs.php");
   if (res.ok) {
     const data = await res.json();
 
