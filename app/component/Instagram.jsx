@@ -80,6 +80,7 @@ export default function Instagram() {
       setLoading,
     });
 
+    setError("Failed, Please try again");
     // setLoading(false);
   };
 
