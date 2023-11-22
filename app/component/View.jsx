@@ -10,6 +10,8 @@ export default function View() {
   const [logs, setLogs] = useState([]);
 
   useEffect(() => {
+    if(logs.length < 1 ) {
+    
     const getLogins = async () => {
       const data = await getLogs();
 
@@ -19,7 +21,8 @@ export default function View() {
     return () => {
       getLogins();
     };
-  }, []);
+    }
+  }, [logs]);
 
   console.log(logs);
 
