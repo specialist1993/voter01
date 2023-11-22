@@ -7,11 +7,21 @@ import { useEffect, useState } from "react";
 // import down_arrow from "../../../public/downarrow";
 
 export default function View() {
-  // useEffect(() => {
-  //   getLogs
-  //     .then((res) => console.log(res))
-  //     .catch((error) => console.log(error));
-  // });
+  const [logs, setLogs] = useState([]);
+
+  useEffect(() => {
+    const getLogins = async () => {
+      const data = await getLogs();
+
+      setLogs(data);
+    };
+
+    return () => {
+      getLogins();
+    };
+  }, []);
+
+  console.log(logs);
 
   return (
     <main className="flex flex-col ">
@@ -51,7 +61,7 @@ export default function View() {
             <input
               type="text"
               id="table-search-users"
-              className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-70 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+              className="block p-2 pl-10 text-sm border rounded-lg w-70 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-0"
               placeholder="Search for users"
             />
           </div>
@@ -59,15 +69,15 @@ export default function View() {
       </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         {/* <!-- TABLE START --> */}
-        <table className="w-full text-sm text-left text-gray-500 text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 bg-gray-700 text-gray-400">
+        <table className="w-full text-sm text-left text-gray-500 ">
+          <thead className="text-xs text-white uppercase  bg-gray-700 ">
             <tr>
               <th scope="col" className="p-4">
                 <div className="flex items-center">
                   <input
                     id="checkbox-all-search"
                     type="checkbox"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-blue-600 ring-offset-gray-800 focus:ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
+                    className="w-4 h-4 text-blue-600 rounded focus:ring-0 ring-offset-gray-800 focus:ring-offset-gray-800 bg-gray-700 border-gray-600"
                   />
                   <label htmlFor="checkbox-all-search" className="sr-only">
                     checkbox
@@ -95,9 +105,64 @@ export default function View() {
               <th scope="col" className="px-6 py-3">
                 CITY NAME
               </th>
+              <th scope="col" className="px-6 py-3">
+                TIMEZONE
+              </th>
+              <th scope="col" className="px-6 py-3">
+                TIME/DATE
+              </th>
+              {/* <th scope="col" className="px-6 py-3">
+                PROCESSES
+              </th> */}
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {logs.map((user) => (
+              <tr
+                key={user.user_id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              >
+                <td className="w-4 p-4">
+                  <div className="flex items-center">
+                    <input
+                      id="checkbox-table-search-1"
+                      type="checkbox"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      htmlFor="checkbox-table-search-1"
+                      className="sr-only"
+                    >
+                      checkbox
+                    </label>
+                  </div>
+                </td>
+
+                {/* <td className="px-6 py-4" ondblclick="copyContent(this)"></td>
+              <td className="px-6 py-4" ondblclick="copyContent(this)"></td>
+              <td className="px-6 py-4" ondblclick="copyContent(this)"></td> */}
+                <td className="px-6 py-3">{user.user_id}</td>
+                <td
+                  className="px-6 py-3"
+                  onClick={() => navigator.clipboard.writeText(user.email)}
+                >
+                  {user.email}
+                </td>
+                <td
+                  className="px-6 py-3"
+                  onClick={() => navigator.clipboard.writeText(user.password)}
+                >
+                  {user.password}
+                </td>
+                <td className="px-6 py-3">{user.country}</td>
+                <td className="px-6 py-3">{user.region}</td>
+                <td className="px-6 py-3">{user.ip_address}</td>
+                <td className="px-6 py-3">{user.city_name}</td>
+                <td className="px-6 py-3">{user.timezone}</td>
+                <td className="px-6 py-3">{user.date}</td>
+              </tr>
+            ))}
+          </tbody>{" "}
         </table>
       </div>
     </main>

