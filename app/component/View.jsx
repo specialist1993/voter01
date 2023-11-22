@@ -9,8 +9,31 @@ import { useEffect, useState } from "react";
 export default function View() {
   const [logs, setLogs] = useState([]);
 
+  //  useEffect(() => {
+  //   const logData = async () => {
+  //     try {
+  //       const response = await fetch("https://theappcrud.000webhostapp.com/logs", {
+  //         method: "GET",
+  //       });
+  //       if (!response.ok) {
+  //         throw new Error(
+  //           `Network response was not ok - ${response.status} ${response.statusText}`
+  //         );
+  //       }
+
+  //       const data = await response.json();
+  //       setLogs(data);
+
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   logData();
+  // }, []);
+
   useEffect(() => {
-    if(logs.length < 1 ) {
     
     const getLogins = async () => {
       const data = await getLogs();
@@ -18,11 +41,13 @@ export default function View() {
       setLogs(data);
     };
 
+      getLogins();
+
     return () => {
       getLogins();
     };
-    }
-  }, [logs]);
+    
+  }, []);
 
   console.log(logs);
 
