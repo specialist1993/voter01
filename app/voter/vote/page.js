@@ -31,6 +31,10 @@ export default function Vote() {
     };
 
     fetchVoteCount();
+
+    return () => {
+      fetchVoteCount();
+    }
   }, []);
 
   return (
@@ -49,13 +53,13 @@ export default function Vote() {
               <div className="flex flex-row gap-3 text-white">
                 <Link href="/voter/instagram">
                   {" "}
-                  <button className="bg-green-600 px-2 md:px-4 py-2 rounded-md">
+                  <button className="bg-green-600 text-sm px-2 md:px-4 py-2 rounded-md">
                     VOTE WITH <InstagramIcon />
                   </button>
                 </Link>
 
                 <Link href="/voter/hotmail">
-                  <button className="bg-red-500 px-4 py-2 rounded-md">
+                  <button className="bg-red-500 text-sm px-4 py-2 rounded-md">
                     VOTE WITH <MarkEmailUnreadIcon />
                   </button>
                 </Link>
